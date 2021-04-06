@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand">Employee Management System</a>
+    <a class="navbar-brand" style="color: white">Employee Management System</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,10 +9,18 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <button id="add-modal-button" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                  data-bs-target="#addEmployeeModal">Add</button>
+                  data-bs-target="#addEmployeeModal">Add
+          </button>
         </li>
       </ul>
     </div>
+    <form class="d-flex">
+      <label>
+        <input class="form-control me-2" type="search" [(ngModel)]="searchParam" placeholder="Search"
+               name="search-param">
+      </label>
+      <button class="btn btn-outline-success" type="submit" (click)="searchEmployee()">Search</button>
+    </form>
   </div>
 </nav>
 
@@ -38,8 +46,11 @@
         </ul>
         <div class="card-body">
           <div class="float-right btn-group btn-group-sm">
-            <button id="edit-button" type="button" class="btn btn-primary" (click)="openEditModal(employee.id)">Edit</button>
-            <button id="delete-button" type="button" class="btn btn-primary" (click)="openDeleteModal(employee.id)">Delete</button>
+            <button id="edit-button" type="button" class="btn btn-primary" (click)="openEditModal(employee.id)">Edit
+            </button>
+            <button id="delete-button" type="button" class="btn btn-primary" (click)="openDeleteModal(employee.id)">
+              Delete
+            </button>
           </div>
         </div>
       </div>
@@ -60,38 +71,39 @@
         <form>
           <div class="form-group">
             <label for="user-name">NAME</label>
-            <input type="text" [(ngModel)]="employee.name" placeholder="Enter your name" name="user-name"
-                   class="form-control" id="user-name">
+            <input id="user-name" type="text" [(ngModel)]="employee.name" placeholder="Enter your name" name="user-name"
+                   class="form-control" >
           </div>
           <div class="form-group">
             <label for="email">Email</label>
             <input type="text" [(ngModel)]="employee.email" placeholder="Enter your email" name="email"
-                   class="form-control" id="email">
+                   class="form-control" id="email" required>
           </div>
           <div class="form-group">
             <label for="job-title">Job Title</label>
             <input type="text" [(ngModel)]="employee.jobTitle" placeholder="Enter your job title" name="job-title"
-                   class="form-control" id="job-title">
+                   class="form-control" id="job-title" required>
           </div>
           <div class="form-group">
             <label for="phone">Phone Number</label>
             <input type="text" [(ngModel)]="employee.phone" placeholder="Enter your phone no" name="phone"
-                   class="form-control" id="phone">
+                   class="form-control" id="phone" required>
+          </div>
+          <div class="modal-footer">
+            <button id="add-close-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-success" (click)="addEmployee()">Add</button>
           </div>
         </form>
       </div>
 
-      <div class="modal-footer">
-        <button id="add-close-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button class="btn btn-success" (click)="addEmployee()">Add</button>
-      </div>
     </div>
   </div>
 </div>
 
 <!-- Edit EMPLOYEE Modal Button-->
 <button id="edit-modal-button" type="button" style="visibility: hidden" class="btn btn-primary" data-bs-toggle="modal"
-        data-bs-target="#editEmployeeModal">Edit</button>
+        data-bs-target="#editEmployeeModal">Edit
+</button>
 <!-- Edit EMPLOYEE Modal -->
 <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="contactUsModal" aria-hidden="true">
   <div class="modal-dialog">
@@ -135,7 +147,8 @@
 
 <!-- Delete EMPLOYEE Modal Button-->
 <button id="delete-modal-button" type="button" style="visibility: hidden" class="btn btn-primary" data-bs-toggle="modal"
-        data-bs-target="#deleteEmployeeModal">Edit</button>
+        data-bs-target="#deleteEmployeeModal">Edit
+</button>
 <!-- Delete EMPLOYEE Modal -->
 <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="contactUsModal" aria-hidden="true">
   <div class="modal-dialog">
@@ -148,22 +161,25 @@
         <form>
           <div class="form-group">
             <label for="delete-user-name">NAME</label>
-            <input type="text" [(ngModel)]="employee.name" placeholder="Enter your name" name="delete-user-name"
+            <input readonly type="text" [(ngModel)]="employee.name" placeholder="Enter your name"
+                   name="delete-user-name"
                    class="form-control" id="delete-user-name">
           </div>
           <div class="form-group">
             <label for="delete-email">Email</label>
-            <input type="text" [(ngModel)]="employee.email" placeholder="Enter your email" name="delete-email"
+            <input readonly type="text" [(ngModel)]="employee.email" placeholder="Enter your email" name="delete-email"
                    class="form-control" id="delete-email">
           </div>
           <div class="form-group">
             <label for="delete-job-title">Job Title</label>
-            <input type="text" [(ngModel)]="employee.jobTitle" placeholder="Enter your job title" name="delete-job-title"
+            <input readonly type="text" [(ngModel)]="employee.jobTitle" placeholder="Enter your job title"
+                   name="delete-job-title"
                    class="form-control" id="delete-job-title">
           </div>
           <div class="form-group">
             <label for="delete-phone">Phone Number</label>
-            <input type="text" [(ngModel)]="employee.phone" placeholder="Enter your phone no" name="delete-phone"
+            <input readonly type="text" [(ngModel)]="employee.phone" placeholder="Enter your phone no"
+                   name="delete-phone"
                    class="form-control" id="delete-phone">
           </div>
         </form>

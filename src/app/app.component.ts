@@ -10,7 +10,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   public employees: Employee[] = [];
-  public employee: Employee = new Employee(0, '', '', '', '', '', '')
+  public employee: Employee = new Employee(0, '', '', '', '', '', '');
+  public searchParam: string = '';
 
   constructor(private employeeService: EmployeeService) {
   }
@@ -101,6 +102,21 @@ export class AppComponent implements OnInit {
         const button = document.getElementById('delete-close-button');
         // @ts-ignore
         button.click();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+
+  searchEmployee() {
+    if (this.searchParam == '') {
+      this.getEmployees();
+      return;
+    }
+    this.employeeService.getEmployeesWithSearchParam(this.searchParam).subscribe(
+      value => {
+        this.employees = value;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
