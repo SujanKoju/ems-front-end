@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Employee } from './employee';
-import { EmployeeService } from './employee.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Employee} from './employee';
+import {EmployeeService} from './employee.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +10,10 @@ import { NgForm } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   public employees: Employee[] = [];
-  public editEmployee: Employee | undefined;
-  public deleteEmployee: Employee | undefined;
+  public employee: Employee = new Employee(0, '', '', '', '', '', '')
 
-  constructor(private employeeService: EmployeeService){}
+  constructor(private employeeService: EmployeeService) {
+  }
 
   ngOnInit() {
     this.getEmployees();
@@ -32,27 +31,16 @@ export class AppComponent implements OnInit {
     );
   }
 
-  public onAddEmloyee(addForm: NgForm): void {
-    // @ts-ignore
-    document.getElementById('add-employee-form').click();
-    this.employeeService.addEmployee(addForm.value).subscribe(
+  addEmployee() {
+    this.employeeService.addEmployee(this.employee).subscribe(
       (response: Employee) => {
         console.log(response);
         this.getEmployees();
-        addForm.reset();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-        addForm.reset();
-      }
-    );
-  }
+        this.initializeEmployee();
+        const button = document.getElementById('add-close-button');
+        // @ts-ignore
+        button.click();
 
-  public onUpdateEmloyee(employee: Employee): void {
-    this.employeeService.updateEmployee(employee).subscribe(
-      (response: Employee) => {
-        console.log(response);
-        this.getEmployees();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -60,57 +48,63 @@ export class AppComponent implements OnInit {
     );
   }
 
-  public onDeleteEmloyee(employeeId: number): void {
-    this.employeeService.deleteEmployee(employeeId).subscribe(
-      (response: void) => {
-        console.log(response);
-        this.getEmployees();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
 
-  public searchEmployees(key: string): void {
-    console.log(key);
-    const results: Employee[] = [];
-    for (const employee of this.employees) {
-      if (employee.name.toLowerCase().indexOf(key.toLowerCase()) !== -1
-        || employee.email.toLowerCase().indexOf(key.toLowerCase()) !== -1
-        || employee.phone.toLowerCase().indexOf(key.toLowerCase()) !== -1
-        || employee.jobTitle.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-        results.push(employee);
-      }
-    }
-    this.employees = results;
-    if (results.length === 0 || !key) {
-      this.getEmployees();
-    }
-  }
-
-  public onOpenModal(employee: Employee, mode: string): void {
-    const container = document.getElementById('main-container');
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.style.display = 'none';
-    button.setAttribute('data-toggle', 'modal');
-    if (mode === 'add') {
-      button.setAttribute('data-target', '#addEmployeeModal');
-    }
-    if (mode === 'edit') {
-      this.editEmployee = employee;
-      button.setAttribute('data-target', '#updateEmployeeModal');
-    }
-    if (mode === 'delete') {
-      this.deleteEmployee = employee;
-      button.setAttribute('data-target', '#deleteEmployeeModal');
-    }
+  openEditModal(id: number) {
+    this.employeeService.getEmployee(id).subscribe(employeeById => {
+      this.employee = employeeById;
+    })
+    const button = document.getElementById('edit-modal-button');
     // @ts-ignore
-    container.appendChild(button);
     button.click();
   }
 
+  editEmployee() {
+    this.employeeService.updateEmployee(this.employee).subscribe(
+      (response: Employee) => {
+        console.log(response);
+        this.getEmployees();
+        this.initializeEmployee();
+        const button = document.getElementById('edit-close-button');
+        // @ts-ignore
+        button.click();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
 
+  private initializeEmployee() {
+    this.employee.id = 0;
+    this.employee.name = '';
+    this.employee.email = '';
+    this.employee.phone = '';
+    this.employee.jobTitle = '';
+    this.employee.employeeCode = '';
+    this.employee.imageUrl = '';
+  }
 
+  openDeleteModal(id: number) {
+    this.employeeService.getEmployee(id).subscribe(employeeById => {
+      this.employee = employeeById;
+    })
+    const button = document.getElementById('delete-modal-button');
+    // @ts-ignore
+    button.click();
+  }
+
+  deleteEmployee() {
+    this.employeeService.deleteEmployee(this.employee.id).subscribe(
+      value => {
+        this.getEmployees();
+        this.initializeEmployee();
+        const button = document.getElementById('delete-close-button');
+        // @ts-ignore
+        button.click();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
 }

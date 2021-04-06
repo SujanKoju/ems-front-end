@@ -1,9 +1,13 @@
-export interface Employee {
-  id: number;
-  name: string;
-  email: string;
-  jobTitle: string;
-  phone: string;
-  imageUrl: string;
-  employeeCode: string;
+export class Employee {
+  constructor(
+    public id: number,
+    public name: string,
+    public  email: string,
+    public jobTitle: string,
+    public phone: string,
+    public imageUrl: string,
+    public  employeeCode: string,
+  ) {
+  }
+
 }
