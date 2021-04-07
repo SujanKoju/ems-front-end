@@ -68,34 +68,35 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form #addForm="ngForm" novalidate>
           <div class="form-group">
-            <label for="user-name">NAME</label>
-            <input id="user-name" type="text" [(ngModel)]="employee.name" placeholder="Enter your name" name="user-name"
-                   class="form-control" >
+            <label for="name">NAME</label>
+            <input id="name" name="name" [(ngModel)]="employee.name" #name="ngModel"
+                   placeholder="Enter your name" class="form-control" required minlength="5"/>
+
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" [(ngModel)]="employee.email" placeholder="Enter your email" name="email"
-                   class="form-control" id="email" required>
+            <input type="text" required email [(ngModel)]="employee.email" placeholder="Enter your email" name="email"
+                   class="form-control" id="email"/>
           </div>
           <div class="form-group">
             <label for="job-title">Job Title</label>
             <input type="text" [(ngModel)]="employee.jobTitle" placeholder="Enter your job title" name="job-title"
-                   class="form-control" id="job-title" required>
+                   class="form-control" id="job-title" required/>
           </div>
           <div class="form-group">
             <label for="phone">Phone Number</label>
             <input type="text" [(ngModel)]="employee.phone" placeholder="Enter your phone no" name="phone"
-                   class="form-control" id="phone" required>
+                   class="form-control" id="phone" required/>
           </div>
           <div class="modal-footer">
             <button id="add-close-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button class="btn btn-success" (click)="addEmployee()">Add</button>
+            <button class="btn btn-success" type="submit" (click)="addEmployee()">Add
+            </button>
           </div>
         </form>
       </div>
-
     </div>
   </div>
 </div>
@@ -110,36 +111,39 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="EditModalLabel">Edit Employee</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button (click)="closeButtonClicked()" type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form #editForm="ngForm" novalidate>
           <div class="form-group">
             <label for="edit-user-name">NAME</label>
             <input type="text" [(ngModel)]="employee.name" placeholder="Enter your name" name="edit-user-name"
-                   class="form-control" id="edit-user-name">
+                   class="form-control" id="edit-user-name" required minlength="5"/>
           </div>
           <div class="form-group">
             <label for="edit-email">Email</label>
             <input type="text" [(ngModel)]="employee.email" placeholder="Enter your email" name="edit-email"
-                   class="form-control" id="edit-email">
+                   class="form-control" id="edit-email" required email/>
           </div>
           <div class="form-group">
             <label for="edit-job-title">Job Title</label>
             <input type="text" [(ngModel)]="employee.jobTitle" placeholder="Enter your job title" name="edit-job-title"
-                   class="form-control" id="edit-job-title">
+                   class="form-control" id="edit-job-title" required/>
           </div>
           <div class="form-group">
             <label for="edit-phone">Phone Number</label>
             <input type="text" [(ngModel)]="employee.phone" placeholder="Enter your phone no" name="edit-phone"
-                   class="form-control" id="edit-phone">
+                   class="form-control" id="edit-phone" required/>
           </div>
         </form>
       </div>
 
       <div class="modal-footer">
-        <button id="edit-close-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button class="btn btn-success" (click)="editEmployee()">Update</button>
+        <button (click)="closeButtonClicked()" id="edit-close-button" type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Close
+        </button>
+        <button [disabled]="editForm.invalid" class="btn btn-success" (click)="editEmployee()">Update</button>
       </div>
     </div>
   </div>
@@ -155,7 +159,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="DeleteModalLabel">Delete Employee</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button (click)="closeButtonClicked()" type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form>
@@ -186,7 +191,9 @@
       </div>
 
       <div class="modal-footer">
-        <button id="delete-close-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button (click)="closeButtonClicked()" id="delete-close-button" type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Close
+        </button>
         <button class="btn btn-success" (click)="deleteEmployee()">Delete</button>
       </div>
     </div>

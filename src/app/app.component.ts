@@ -123,4 +123,8 @@ export class AppComponent implements OnInit {
       }
     )
   }
+
+  closeButtonClicked() {
+    this.initializeEmployee();
+  }
 }
